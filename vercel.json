@@ -2,7 +2,10 @@
   "version": 2,
   "functions": {
     "api/index.js": {
-      "runtime": "nodejs20.x"
+      "runtime": "vercel-node@20.0.0"
     }
+  },
+  "env": {
+    "N8N_WEBHOOK_URL": "https://automacao.homologacao.tallos.com.br/webhook/consulta"
   }
 }
