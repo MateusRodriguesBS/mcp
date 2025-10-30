@@ -23,6 +23,6 @@
     }
   },
   "endpoints": {
-    "default": "https://agendamento-mcp.vercel.app/api"
+    "default": "https://mcp-rose.vercel.app/"
   }
 }
