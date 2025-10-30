@@ -1,24 +1,46 @@
-server.tool("listar_unidades", {
-  description: "Lista unidades de atendimento",
-  async handler() {
-    return enviarAoN8n({ action: "listar_unidades" });
+import express from "express";
+import fetch from "node-fetch";
+
+const app = express();
+app.use(express.json());
+
+const N8N_WEBHOOK_URL = process.env.N8N_WEBHOOK_URL || "https://automacao.homologacao.tallos.com.br/webhook/consulta";
+
+async function enviarAoN8n(action, dadosUsuario) {
+  try {
+    const res = await fetch(N8N_WEBHOOK_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ action, ...dadosUsuario }),
+    });
+    const contentType = res.headers.get("content-type") || "";
+    if (contentType.includes("application/json")) return await res.json();
+    return await res.text();
+  } catch (err) {
+    return { sucesso: false, erro: String(err) };
   }
+}
+
+// Todas as rotas MCP simuladas
+const actions = [
+  "listar_unidades",
+  "listar_especialidades",
+  "listar_medicos",
+  "listar_datas",
+  "listar_horarios",
+  "agendar_consulta",
+];
+
+for (const action of actions) {
+  app.post(`/${action}`, async (req, res) => {
+    const result = await enviarAoN8n(action, req.body || {});
+    res.json(result);
+  });
+}
+
+// Endpoint padrão
+app.get("/", (req, res) => {
+  res.json({ status: "ok", mcp: true, message: "Servidor MCP simulado rodando" });
 });
 
-server.tool("listar_especialidades", {
-  inputSchema: { type: "object", properties: { unidade_id: { type: "string" } }, required: ["unidade_id"] },
-  async handler({ unidade_id }) {
-    return enviarAoN8n({ action: "listar_especialidades", unidade_id });
-  }
-});
-
-server.tool("listar_medicos", {
-  inputSchema: { 
-    type: "object", 
-    properties: { unidade_id: { type: "string" }, especialidade_id: { type: "string" } }, 
-    required: ["unidade_id", "especialidade_id"] 
-  },
-  async handler({ unidade_id, especialidade_id }) {
-    return enviarAoN8n({ action: "listar_medicos", unidade_id, especialidade_id });
-  }
-});
+export default app;

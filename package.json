@@ -2,14 +2,10 @@
   "name": "agendamento-mcp",
   "version": "1.0.0",
   "type": "module",
-  "scripts": {
-    "start": "node api/index.js"
-  },
+  "scripts": { "start": "node api/index.js" },
   "dependencies": {
-    "@modelcontextprotocol/server": "^0.2.0",
-    "node-fetch": "^3.3.1"
+    "express": "^4.19.2",
+    "node-fetch": "^3.3.2"
   },
-  "engines": {
-    "node": ">=18"
-  }
+  "engines": { "node": ">=18" }
 }
