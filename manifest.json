@@ -1,0 +1,28 @@
+{
+  "name": "agendamento-mcp",
+  "version": "1.0.0",
+  "description": "Servidor MCP para agendamento de consultas via n8n enviando dados do cliente em todas as etapas.",
+  "tools": {
+    "listar_unidades": {
+      "description": "Lista unidades disponíveis"
+    },
+    "listar_especialidades": {
+      "description": "Lista especialidades de uma unidade"
+    },
+    "listar_medicos": {
+      "description": "Lista médicos por unidade e especialidade"
+    },
+    "listar_datas": {
+      "description": "Lista datas disponíveis de um médico"
+    },
+    "listar_horarios": {
+      "description": "Lista horários disponíveis em uma data"
+    },
+    "agendar_consulta": {
+      "description": "Agendar uma consulta escolhida"
+    }
+  },
+  "endpoints": {
+    "default": "https://agendamento-mcp.vercel.app/api"
+  }
+}
